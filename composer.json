@@ -1,0 +1,15 @@
+{
+  "name": "slavyan/mvc-php-tutorial",
+  "authors": [
+    {
+      "name": "slavyanHristov",
+      "email": "slavqnhristov@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "app\\": "./"
+    }
+  },
+  "require": {}
+}
