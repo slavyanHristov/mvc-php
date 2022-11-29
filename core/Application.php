@@ -10,7 +10,8 @@ class Application
     public Response $response;
     public string $layout = 'main';
     public static Application $app;
-    public ?Controller $controller = null;
+    private ?Controller $controller = null;
+    public Session $session;
     public Database $db;
     public View $view;
 
@@ -21,7 +22,8 @@ class Application
         $this->request = new Request();
         $this->response = new Response();
         $this->router = new Router($this->request, $this->response);
-        $this->db = new Database($config['db']);
+        $this->session = new Session();
+        $this->db = Database::getInstance($config['db']);
         $this->view = new View();
     }
 

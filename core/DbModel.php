@@ -4,9 +4,9 @@ namespace app\core;
 
 abstract class DbModel extends Model
 {
-    abstract public static function tableName(): string;
+    abstract protected static function tableName(): string;
 
-    abstract public function attributes(): array;
+    abstract protected function attributes(): array;
 
     public function save()
     {
@@ -26,6 +26,6 @@ abstract class DbModel extends Model
 
     public static function prepare($sql)
     {
-        return Application::$app->db->pdo->prepare($sql);
+        return Application::$app->db->prepare($sql);
     }
 }

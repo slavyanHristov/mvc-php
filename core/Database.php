@@ -7,15 +7,29 @@ use PDO;
 class Database
 {
 
-    public PDO $pdo;
+    private PDO $pdo;
+    private static ?Database $database = null;
 
-    public function __construct(array $config)
+    private function __construct(array $config)
     {
         $dsn = $config['dsn'] ?? '';
         $user = $config['user'] ?? '';
         $password = $config['password'] ?? '';
         $this->pdo = new PDO($dsn, $user, $password); // establish database connection
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);    // display error messages 
+    }
+    public static function getInstance(array $config = null)
+    {
+        if (self::$database === null) {
+            self::$database = new Database($config);
+        }
+
+        return self::$database;
+    }
+
+    public function getPDO()
+    {
+        return $this->pdo;
     }
 
     public function applyMigrations()

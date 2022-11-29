@@ -4,15 +4,15 @@ namespace app\core;
 
 abstract class Model
 {
-    public const RULE_REQUIRED = 'required';
-    public const RULE_EMAIL = 'email';
-    public const RULE_MIN = 'min';
-    public const RULE_MAX = 'max';
-    public const RULE_MATCH = 'match';
-    public const RULE_UNIQUE = 'unique';
+    protected const RULE_REQUIRED = 'required';
+    protected const RULE_EMAIL = 'email';
+    protected const RULE_MIN = 'min';
+    protected const RULE_MAX = 'max';
+    protected const RULE_MATCH = 'match';
+    protected const RULE_UNIQUE = 'unique';
 
     // holds associative array for error messages if validation fails
-    public array $errors = [];
+    private array $errors = [];
 
     public function loadData($data)
     {
@@ -23,7 +23,7 @@ abstract class Model
         }
     }
     // all classes who extend Model must implement this method
-    abstract public function rules(): array;
+    abstract protected function rules(): array;
 
     public function validate()
     {
@@ -85,7 +85,7 @@ abstract class Model
         return empty($this->errors);
     }
 
-    public function addError(string $attribute, string $rule, array $params = [])
+    private function addError(string $attribute, string $rule, array $params = [])
     {
         // assigns the error message for the specific rule
         $message = $this->errorMessages()[$rule] ?? '';
@@ -97,7 +97,7 @@ abstract class Model
         $this->errors[$attribute][] = $message;
     }
 
-    public function errorMessages()
+    private function errorMessages()
     {
         return [
             self::RULE_REQUIRED => 'This field is required',

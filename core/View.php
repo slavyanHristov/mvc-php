@@ -12,9 +12,9 @@ class View
         $layoutName = Application::$app->layout;
 
         // if the endpoint is handled by controller method
-        if (Application::$app->controller) {
+        if (Application::$app->getController()) {
             // set the layoutName to the layout of the given controller
-            $layoutName = Application::$app->controller->layout;
+            $layoutName = Application::$app->getController()->getLayout();
         }
         $viewContent = $this->renderViewOnly($view, $params);
         ob_start();

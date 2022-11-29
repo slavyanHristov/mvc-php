@@ -67,7 +67,7 @@ class Router
         if (is_array($callback)) {
             // create instance of the controller passed in the array
             $controller = new $callback[0];
-            Application::$app->controller = $controller;
+            Application::$app->setController($controller);
 
             // Set the first element of callback to be object instead of string
             $callback[0] = $controller;
