@@ -26,7 +26,13 @@ class View
 
     public function renderViewOnly($view, array $params)
     {
-        extract($params);
+        /**
+         * extract($array) => turns key/value pairs from an array into variables.
+         * ex. $arr = ["name" => "Stoyan", "age" => 15]
+         * extract($arr) => $name = "Stoyan"; $age = 15;
+         */
+        extract($params); // When the array is extracted, we can use the variables in the included file.
+
         ob_start();
         include_once Application::$ROOT_DIR . "/views/$view.php";
         return ob_get_clean();
