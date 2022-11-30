@@ -79,7 +79,7 @@ class Router
          * We are using this function because we don't know explicitly
          *  what function and from which class would be called
          */
-        return call_user_func($callback, $this->request);   // $callback => [Class, 'methodName']
+        return call_user_func($callback, $this->request, $this->response);   // $callback => [Class, 'methodName']
     }
 
     // replaces the placeholder({{content}}) of the layout with the given view content

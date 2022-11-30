@@ -8,6 +8,13 @@ abstract class DbModel extends Model
 
     abstract protected function attributes(): array;
 
+    abstract public static function primaryKey(): string;
+
+    public static function prepare($sql)
+    {
+        return Application::$app->db->prepare($sql);
+    }
+
     public function save()
     {
         $tableName = $this->tableName();
@@ -24,8 +31,19 @@ abstract class DbModel extends Model
         return true;
     }
 
-    public static function prepare($sql)
+    public static function findOne($where)
     {
-        return Application::$app->db->prepare($sql);
+        $tableName = static::tableName(); //TODO: Difference between static:: and self::
+        $attributes = array_keys($where);
+        $sql = implode("AND ", array_map(fn ($attr) => "$attr = :$attr", $attributes));
+        $statement = self::prepare("SELECT * FROM $tableName WHERE $sql");
+        foreach ($where as $key => $value) {
+            $statement->bindValue("$key", $value);
+        }
+
+        $statement->execute();
+        return $statement->fetchObject(static::class);
+        // SELECT * FROM $tableName WHERE $sql;
+
     }
 }
