@@ -1,5 +1,5 @@
 <?php
-
+$this->setTitle('Register');
 /** @var $model \app\model\User */
 
 ?>

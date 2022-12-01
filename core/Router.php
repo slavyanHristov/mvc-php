@@ -2,12 +2,15 @@
 
 namespace app\core;
 
+use app\core\exceptions\NotFoundException;
+
 class Router
 {
     // all routes in the app
     protected array $routes = [];
     public Request $request;
     public Response $response;
+
     public function __construct(Request $request, Response $response)
     {
         $this->request = $request;
@@ -32,7 +35,6 @@ class Router
         $path = $this->request->getPath();
         $method = $this->request->getMethod();
 
-
         /**
          *  The '??' operator returns the first operand if it exists
          *  and is not NULL; otherwise it returns it's second operand
@@ -46,8 +48,7 @@ class Router
          *  and set the response's status code to 404
          */
         if (!$callback) {
-            $this->response->setStatusCode(404);
-            return $this->renderView("_404");
+            throw new NotFoundException();
         }
 
         /**
@@ -56,7 +57,7 @@ class Router
          * if so, render the page
          */
         if (is_string($callback)) {
-            return $this->renderView($callback);
+            return Application::$app->view->renderView($callback);
         }
 
         /**
@@ -68,11 +69,15 @@ class Router
             // create instance of the controller passed in the array
             $controller = new $callback[0];
             Application::$app->setController($controller);
-
-            // Set the first element of callback to be object instead of string
+            $controller = Application::$app->getController();
+            $controller->action = $callback[1];
             $callback[0] = $controller;
-        }
 
+            foreach ($controller->getMiddlewares() as $middleware) {
+                $middleware->execute();
+            }
+            // Set the first element of callback to be object instead of string
+        }
         /**
          * call_user_func() => calls the callback given by the first parameter 
          * and passes the remaining parameters as arguments.
@@ -80,18 +85,5 @@ class Router
          *  what function and from which class would be called
          */
         return call_user_func($callback, $this->request, $this->response);   // $callback => [Class, 'methodName']
-    }
-
-    // replaces the placeholder({{content}}) of the layout with the given view content
-    public function renderView($view, $params = [])
-    {
-        return Application::$app->view->renderView($view, $params);
-    }
-
-
-    // Gets the content of the given view
-    public function renderViewOnly($view, $params = [])
-    {
-        return Application::$app->view->renderViewOnly($view, $params);
     }
 }

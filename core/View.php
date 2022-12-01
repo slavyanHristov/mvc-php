@@ -4,9 +4,19 @@ namespace app\core;
 
 class View
 {
-    public string $title = '';
+    private string $title = '';
 
-    public function renderView($view, array $params)
+    public function setTitle(string $title)
+    {
+        $this->title = $title;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    public function renderView($view, array $params = [])
     {
         // get the default layout from app class
         $layoutName = Application::$app->layout;
@@ -24,14 +34,16 @@ class View
         return str_replace('{{content}}', $viewContent, $layoutContent);
     }
 
-    public function renderViewOnly($view, array $params)
+    public function renderViewOnly($view, array $params = [])
     {
         /**
          * extract($array) => turns key/value pairs from an array into variables.
          * ex. $arr = ["name" => "Stoyan", "age" => 15]
          * extract($arr) => $name = "Stoyan"; $age = 15;
          */
-        extract($params); // When the array is extracted, we can use the variables in the included file.
+        if (!empty($params)) {
+            extract($params); // When the array is extracted, we can use the variables in the included file.
+        }
 
         ob_start();
         include_once Application::$ROOT_DIR . "/views/$view.php";

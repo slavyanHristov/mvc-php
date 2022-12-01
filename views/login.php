@@ -1,5 +1,5 @@
 <?php
-
+$this->setTitle('Login');
 /** @var $model \app\model\User */
 
 ?>

@@ -2,6 +2,8 @@
 
 namespace app\core;
 
+use app\core\db\Database;
+
 class Application
 {
     public static string $ROOT_DIR;
@@ -27,7 +29,7 @@ class Application
         $this->view = new View();
     }
 
-    public function getController()
+    public function getController(): ?Controller
     {
         return $this->controller;
     }
@@ -39,6 +41,13 @@ class Application
 
     public function run()
     {
-        echo $this->router->resolve();
+        try {
+            echo $this->router->resolve();
+        } catch (\Exception $e) {
+            $this->response->setStatusCode($e->getCode());
+            echo $this->view->renderView('_error', [
+                'exception' => $e
+            ]);
+        }
     }
 }

@@ -56,7 +56,7 @@ class User extends UserModel
         ];
     }
 
-    public  function rules(): array
+    public function rules(): array
     {
         return [
             'firstName' => [self::RULE_REQUIRED],

@@ -2,6 +2,7 @@
 
 namespace app\core;
 
+
 class Authentication
 {
     public string $userClass;
@@ -24,7 +25,7 @@ class Authentication
         }
     }
 
-    public function login(DbModel $user): bool
+    public function login(UserModel $user): bool
     {
         $this->user = $user;
         $primaryKey = $user->primaryKey();
