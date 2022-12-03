@@ -16,7 +16,9 @@ class AuthMiddleware extends Middleware
 
     public function execute()
     {
+        // if the user is NOT authorized
         if (Application::$app->auth::isGuest()) {
+            // if the given action exists among the action the middleware handles...
             if (empty($this->actions) || in_array(Application::$app->getController()->action, $this->actions)) {
                 throw new ForbiddenException();
             }

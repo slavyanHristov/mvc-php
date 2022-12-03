@@ -31,26 +31,32 @@ class Session
             // Mark to be removed
             $flashMessage['remove'] = true;
         }
+
+        // set the super global session to the modified variant of the flashmessage
         $_SESSION[self::FLASH_KEY] = $flashMessages;
     }
 
     public function getSession($key)
     {
+        // get given session, if it doesn't exist return false
         return $_SESSION[$key] ?? false;
     }
 
     public function setSession($key, $value)
     {
+        // create a session with given key and value
         $_SESSION[$key] = $value;
     }
 
     public function removeSession($key)
     {
+        // remove session with given key
         unset($_SESSION[$key]);
     }
 
     public function setFlash($key, $message)
     {
+        // create session flash message with given key and value and set the remove attribute to false
         $_SESSION[self::FLASH_KEY][$key] = [
             'remove' => false,
             'value' => $message
@@ -64,6 +70,7 @@ class Session
 
     public function __destruct()
     {
+        // on destructoring the object remove the given session
         $flashMessages = $_SESSION[self::FLASH_KEY] ?? [];
 
         foreach ($flashMessages as $key => &$flashMessage) {

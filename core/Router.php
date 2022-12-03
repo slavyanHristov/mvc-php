@@ -70,6 +70,8 @@ class Router
             $controller = new $callback[0];
             Application::$app->setController($controller);
             $controller = Application::$app->getController();
+
+            // setting action
             $controller->action = $callback[1];
             $callback[0] = $controller;
 

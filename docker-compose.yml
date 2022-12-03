@@ -1,0 +1,26 @@
+version: '3.7'
+
+services:
+  app:
+    build: ./docker
+    image: mvc-php
+    ports:
+      - "8080:80"
+    volumes:
+      # Mount source code for development
+      - ./:/var/www
+  db:
+    image: mysql:8
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./docker/mysql-config.cnf:/etc/mysql/conf.d/config.cnf
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mvc_db
+      MYSQL_USER: mvc_php
+      MYSQL_PASSWORD: mvc_php
+
+volumes:
+  mysql-data:

@@ -15,13 +15,13 @@ class m0001_initial
                 status TINYINT DEFAULT 0,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )  ENGINE=INNODB;";
-        $db->pdo->exec($SQL);
+        $db->getPDO()->exec($SQL);
     }
 
     public function down()
     {
         $db = Application::$app->db;
         $SQL = "DROP TABLE users;";
-        $db->pdo->exec($SQL);
+        $db->getPDO()->exec($SQL);
     }
 }

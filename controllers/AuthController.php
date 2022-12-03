@@ -46,11 +46,16 @@ class AuthController extends Controller
             $user->loadData($request->getPayload());
 
             if ($user->validate() && $user->save()) {
+                /**
+                 *  On successful registration create a session of type flashMessages, 
+                 *  which notifies for successful registration on the next page (redirect)
+                 */
                 Application::$app->auth->session->setFlash('success', 'Thanks for registering!');
                 $response->redirect('/');
+                // exit calls the destructor 
                 exit;
             }
-
+            // render the given view and pass data with key of model
             return $this->render('register', [
                 'model' => $user
             ]);
