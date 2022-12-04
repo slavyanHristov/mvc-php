@@ -9,12 +9,13 @@ class User extends UserModel
     const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 1;
     const STATUS_DELETED = 2;
-
+    public int $id;
     public string $firstName = '';
     public string $lastName = '';
     public string $email = '';
     public string $password = '';
     public int $status = self::STATUS_INACTIVE;
+    public string $created_at;
     public string $confirmPassword = '';
 
     public static function tableName(): string

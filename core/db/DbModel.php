@@ -45,6 +45,7 @@ abstract class DbModel extends Model
         }
 
         $statement->execute();
+
         return $statement->fetchObject(static::class);
         // SELECT * FROM $tableName WHERE $sql;
 
