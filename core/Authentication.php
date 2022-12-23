@@ -2,15 +2,15 @@
 
 namespace app\core;
 
-
 class Authentication
 {
     public string $userClass;
+    public array $msConfig;
     private static Authentication $auth;
     public ?UserModel $user = null;
     public Session $session;
 
-    public function __construct(string $userClass)
+    public function __construct(string $userClass, array $msGraph)
     {
         self::$auth = $this;
         $this->userClass = $userClass;
@@ -22,6 +22,10 @@ class Authentication
                 $primaryKey = $this->userClass::primaryKey();
                 $this->user = $this->userClass::findOne([$primaryKey => $primaryValue]);
             }
+        }
+
+        if (isset($msGraph)) {
+            $this->msConfig = $msGraph;
         }
     }
 
@@ -39,10 +43,17 @@ class Authentication
     {
         $this->user = null;
         $this->session->removeSession('user');
+        $tokenCache = new TokenCache();
+        $tokenCache->clearTokens();
     }
 
     public static function isGuest()
     {
-        return !self::$auth->user;
+        return !self::$auth->user && empty(self::$auth->session->getSession('userName'));
+    }
+
+    public static function isAuthenticated()
+    {
+        return isset(self::$auth->user) || self::$auth->session->getSession('userName');
     }
 }

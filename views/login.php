@@ -11,3 +11,5 @@ $this->setTitle('Login');
 <?php echo $form->field($model, 'password')->passwordField(); ?>
 <button type="submit" class="btn btn-primary">Submit</button>
 <?php \app\core\form\Form::end(); ?>
+<br>
+<a href="/ms-login"><button class="btn btn-secondary">Login with Microsoft</button></a>

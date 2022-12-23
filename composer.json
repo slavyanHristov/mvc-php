@@ -12,6 +12,8 @@
     }
   },
   "require": {
-    "vlucas/phpdotenv": "^5.5"
+    "vlucas/phpdotenv": "^5.5",
+    "microsoft/microsoft-graph": "^1.84",
+    "league/oauth2-client": "^2.6"
   }
 }

@@ -29,6 +29,11 @@ class Router
         $this->routes['post'][$path] = $callback;
     }
 
+    public function patch($path, $callback)
+    {
+        $this->routes['patch'][$path] = $callback;
+    }
+
     // On entered URL this method executes
     public function resolve()
     {

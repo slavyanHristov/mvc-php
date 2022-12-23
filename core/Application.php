@@ -25,8 +25,9 @@ class Application
         $this->response = new Response();
         $this->router = new Router($this->request, $this->response);
         $this->db = Database::getInstance($config['db']);
-        $this->auth = new Authentication($config['userClass']);
+        $this->auth = new Authentication($config['userClass'], $config['msGraph']);
         $this->view = new View();
+        // GraphHelper::initializeGraphForUserAuth($config['msGraph']);
     }
 
     public function getController(): ?Controller

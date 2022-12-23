@@ -2,6 +2,7 @@
 
 use app\core\Application;
 
+$username = Application::$app->auth->user ? Application::$app->auth->user->getDisplayName() : Application::$app->auth->session->getSession('userName');
 ?>
 
 <!doctype html>
@@ -44,7 +45,14 @@ use app\core\Application;
                 <?php else : ?>
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="/logout">Welcome <?php echo Application::$app->auth->user->getDisplayName() ?>
+                            <a class="nav-link" href="/todos">ToDo's</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/mails">Inbox</a>
+                        </li>
+                        <li class="nav-item active">
+
+                            <a class="nav-link" href="/logout">Welcome <?php echo $username ?>
                                 (Logout)
                             </a>
                         </li>
@@ -61,6 +69,16 @@ use app\core\Application;
         <?php if (Application::$app->auth->session->getFlash('success')) : ?>
             <div class="alert alert-success">
                 <?php echo Application::$app->auth->session->getFlash('success') ?>
+            </div>
+        <?php endif; ?>
+        <?php if (Application::$app->auth->session->getFlash('error')) : ?>
+            <div class="alert alert-danger">
+                <?php echo Application::$app->auth->session->getFlash('error') ?>
+            </div>
+        <?php endif; ?>
+        <?php if (Application::$app->auth->session->getFlash('errorDetail')) : ?>
+            <div class="alert alert-warning">
+                <?php echo Application::$app->auth->session->getFlash('errorDetail') ?>
             </div>
         <?php endif; ?>
         {{content}}

@@ -13,10 +13,9 @@ class SiteController extends Controller
 
     public function home()
     {
-        $params = [
-            'name' => "Slavyan"
-        ];
-        return $this->render('home', $params);
+        $viewData = $this->loadViewData();
+
+        return $this->render('home', $viewData);
     }
 
     public function contact(Request $request, Response $response)

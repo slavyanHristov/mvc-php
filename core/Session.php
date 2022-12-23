@@ -42,9 +42,21 @@ class Session
         return $_SESSION[$key] ?? false;
     }
 
-    public function setSession($key, $value)
+    /**
+     * Creates a session with given key and value
+     * if array is passed as a key it will be assumed to set
+     * array of values
+     * @param  array|string|null  $key
+     * @param  mixed  $value
+     */
+    public function setSession($key = null, $value = null)
     {
-        // create a session with given key and value
+        if (is_array($key)) {
+            foreach ($key as $sesKey => $sesVal) {
+                $_SESSION[$sesKey] = $sesVal;
+            }
+            return;
+        }
         $_SESSION[$key] = $value;
     }
 
